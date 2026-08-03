@@ -1,0 +1,116 @@
+/* The burger. Eight slots, one atlas, two variables each: which cell to show
+ * and where to sit. The scene is static; the stack is not.
+ */
+
+:root {
+  width: 240px;
+  height: 360px;
+  background: #17121d;
+  --s1: 0;
+  --y1: 400;
+  --s2: 0;
+  --y2: 400;
+  --s3: 0;
+  --y3: 400;
+  --s4: 0;
+  --y4: 400;
+  --s5: 0;
+  --y5: 400;
+  --s6: 0;
+  --y6: 400;
+  --s7: 0;
+  --y7: 400;
+  --s8: 0;
+  --y8: 400;
+}
+
+#plate {
+  type: rect;
+  x: 16px;
+  y: 320px;
+  width: 208px;
+  height: 10px;
+  rx: 4px;
+  fill: #3b3049;
+}
+
+#s1 {
+  type: image;
+  content: url('art/ingredients.png');
+  x: 54px;
+  y: calc(var(--y1) * 1px);
+  width: 132px;
+  height: 56px;
+  object-view-box: xywh(calc(var(--s1) * 132px) 0px 132px 56px);
+}
+
+#s2 {
+  type: image;
+  content: url('art/ingredients.png');
+  x: 54px;
+  y: calc(var(--y2) * 1px);
+  width: 132px;
+  height: 56px;
+  object-view-box: xywh(calc(var(--s2) * 132px) 0px 132px 56px);
+}
+
+#s3 {
+  type: image;
+  content: url('art/ingredients.png');
+  x: 54px;
+  y: calc(var(--y3) * 1px);
+  width: 132px;
+  height: 56px;
+  object-view-box: xywh(calc(var(--s3) * 132px) 0px 132px 56px);
+}
+
+#s4 {
+  type: image;
+  content: url('art/ingredients.png');
+  x: 54px;
+  y: calc(var(--y4) * 1px);
+  width: 132px;
+  height: 56px;
+  object-view-box: xywh(calc(var(--s4) * 132px) 0px 132px 56px);
+}
+
+#s5 {
+  type: image;
+  content: url('art/ingredients.png');
+  x: 54px;
+  y: calc(var(--y5) * 1px);
+  width: 132px;
+  height: 56px;
+  object-view-box: xywh(calc(var(--s5) * 132px) 0px 132px 56px);
+}
+
+#s6 {
+  type: image;
+  content: url('art/ingredients.png');
+  x: 54px;
+  y: calc(var(--y6) * 1px);
+  width: 132px;
+  height: 56px;
+  object-view-box: xywh(calc(var(--s6) * 132px) 0px 132px 56px);
+}
+
+#s7 {
+  type: image;
+  content: url('art/ingredients.png');
+  x: 54px;
+  y: calc(var(--y7) * 1px);
+  width: 132px;
+  height: 56px;
+  object-view-box: xywh(calc(var(--s7) * 132px) 0px 132px 56px);
+}
+
+#s8 {
+  type: image;
+  content: url('art/ingredients.png');
+  x: 54px;
+  y: calc(var(--y8) * 1px);
+  width: 132px;
+  height: 56px;
+  object-view-box: xywh(calc(var(--s8) * 132px) 0px 132px 56px);
+}
+

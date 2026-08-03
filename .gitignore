@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+
+# the original full-size generations the build reduces into art/ — kept locally,
+# not worth 9MB in the repo
+raw/
+frames/

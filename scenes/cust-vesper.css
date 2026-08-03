@@ -1,0 +1,287 @@
+/* Vesper at the counter. The host fires the reaction; the scene owns what
+ * that looks like. */
+
+:root {
+  width: 640px;
+  height: 360px;
+  background: #0b0912;
+  --tod: 1;
+}
+
+@machine poke {
+  initial: calm;
+  state calm  { to: poked on click(:root); }
+  state poked { to: calm on complete; }
+}
+
+/* Every mood reaches every other mood. Leaving happy/meh/sad with only a reset
+   out of them means the lab needs a reset click between any two expressions,
+   and the game can't go straight from one reaction to the next. */
+@machine mood {
+  initial: idle;
+  state idle   { to: eating on event(eat); to: happy on event(happy); to: meh on event(meh); to: sad on event(sad); }
+  state eating { to: happy on event(happy); to: meh on event(meh); to: sad on event(sad); to: idle on event(reset); }
+  state happy  { to: eating on event(eat); to: meh on event(meh); to: sad on event(sad); to: idle on event(reset); }
+  state meh    { to: eating on event(eat); to: happy on event(happy); to: sad on event(sad); to: idle on event(reset); }
+  state sad    { to: eating on event(eat); to: happy on event(happy); to: meh on event(meh); to: idle on event(reset); }
+}
+
+@keyframes bob {
+  0% { transform: translate(0px, 0px); }
+  25% { transform: translate(0px, -1px); }
+  50% { transform: translate(0px, -2px); }
+  75% { transform: translate(0px, -1px); }
+  100% { transform: translate(0px, 0px); }
+}
+@keyframes chew {
+  0% { transform: translate(0px, 0px); }
+  50% { transform: translate(0px, 2px); }
+  100% { transform: translate(0px, 0px); }
+}
+@keyframes blinkShut {
+  0% { opacity: 0; }
+  75.9% { opacity: 1; }
+  77.1% { opacity: 0; }
+  100% { opacity: 0; }
+}
+@keyframes hop {
+  0% { transform: translate(0px, 0px); }
+  22% { transform: translate(0px, -5px); }
+  48% { transform: translate(0px, 0px); }
+  62% { transform: translate(0px, -2px); }
+  100% { transform: translate(0px, 0px); }
+}
+@keyframes sun {
+  0% { filter: brightness(1.34) saturate(0.88) hue-rotate(-10deg); }
+  50% { filter: brightness(1.16) saturate(0.95) hue-rotate(-4deg); }
+  100% { filter: brightness(1.0) saturate(1.0) hue-rotate(0deg); }
+}
+@keyframes day {
+  0% { filter: brightness(1.10); }
+  50% { filter: brightness(1.05); }
+  100% { filter: brightness(1.0); }
+}
+@keyframes float {
+  0% { transform: translate(0px, 0px); }
+  20% { transform: translate(0px, -1px); }
+  40% { transform: translate(0px, -3px); }
+  60% { transform: translate(0px, -3px); }
+  80% { transform: translate(0px, -1px); }
+  100% { transform: translate(0px, 0px); }
+}
+@keyframes twink {
+  0% { opacity: 0; }
+  42% { opacity: 0; }
+  50% { opacity: 1; }
+  62% { opacity: 1; }
+  70% { opacity: 0; }
+  100% { opacity: 0; }
+}
+@keyframes pop {
+  0% { transform: translate(0px, 0px); opacity: 0; }
+  30% { transform: translate(0px, -14px); opacity: 1; }
+  100% { transform: translate(0px, -34px); opacity: 0; }
+}
+
+/* The art is a night diner; breakfast is the same room brightened and cooled.
+   One keyframed filter, scrubbed by the service rather than played. */
+#room {
+  type: group;
+  animation: sun 1s linear;
+  animation-timeline: var(--tod);
+
+  > #diner {
+    type: image;
+    content: url('art/diner.png');
+    x: 0px;
+    y: 0px;
+    width: 640px;
+    height: 360px;
+  }
+}
+
+#light {
+  type: group;
+  animation: day 1s linear;
+  animation-timeline: var(--tod);
+
+  > #cust {
+  type: group;
+  animation: float 5.4s step-end infinite;
+  cursor: pointer;
+  &:state(eating) {
+    animation: chew 0.42s step-end infinite;
+  }
+  &:state(poked) {
+    animation: hop 0.62s ease-out;
+  }
+
+  > #body {
+    type: image;
+    content: url('assets/vesper/char_solo.png');
+    x: 302px;
+    y: 61px;
+    width: 300px;
+    height: 303px;
+  }
+
+  > #eye-blink-l {
+    type: image;
+    content: url('assets/vesper/eyeL_shut.png');
+    x: 403px;
+    y: 229px;
+    width: 65px;
+    height: 75px;
+    opacity: 0;
+    transition: opacity 140ms ease-out;
+    animation: blinkShut 5.4s step-end infinite;
+  }
+  > #eye-l-shut {
+    type: image;
+    content: url('assets/vesper/eyeL_shut.png');
+    x: 403px;
+    y: 229px;
+    width: 65px;
+    height: 75px;
+    opacity: 0;
+    transition: opacity 140ms ease-out;
+    &:state(happy) {
+      opacity: 1;
+    }
+    &:state(poked) {
+      opacity: 1;
+    }
+  }
+  > #eye-l-sad {
+    type: image;
+    content: url('assets/vesper/eyeL_sad.png');
+    x: 403px;
+    y: 229px;
+    width: 65px;
+    height: 75px;
+    opacity: 0;
+    transition: opacity 140ms ease-out;
+    &:state(sad) {
+      opacity: 1;
+    }
+  }
+  > #eye-l-half {
+    type: image;
+    content: url('assets/vesper/eyeL_half.png');
+    x: 403px;
+    y: 229px;
+    width: 65px;
+    height: 75px;
+    opacity: 0;
+    transition: opacity 140ms ease-out;
+    &:state(eating) {
+      opacity: 1;
+    }
+  }
+  > #eye-l-meh {
+    type: image;
+    content: url('assets/vesper/eyeL_meh.png');
+    x: 403px;
+    y: 229px;
+    width: 65px;
+    height: 75px;
+    opacity: 0;
+    transition: opacity 140ms ease-out;
+    &:state(meh) {
+      opacity: 1;
+    }
+  }
+  > #eye-blink-r {
+    type: image;
+    content: url('assets/vesper/eyeR_shut.png');
+    x: 507px;
+    y: 227px;
+    width: 62px;
+    height: 73px;
+    opacity: 0;
+    transition: opacity 140ms ease-out;
+    animation: blinkShut 5.4s step-end infinite;
+  }
+  > #eye-r-shut {
+    type: image;
+    content: url('assets/vesper/eyeR_shut.png');
+    x: 507px;
+    y: 227px;
+    width: 62px;
+    height: 73px;
+    opacity: 0;
+    transition: opacity 140ms ease-out;
+    &:state(happy) {
+      opacity: 1;
+    }
+    &:state(poked) {
+      opacity: 1;
+    }
+  }
+  > #eye-r-sad {
+    type: image;
+    content: url('assets/vesper/eyeR_sad.png');
+    x: 507px;
+    y: 227px;
+    width: 62px;
+    height: 73px;
+    opacity: 0;
+    transition: opacity 140ms ease-out;
+    &:state(sad) {
+      opacity: 1;
+    }
+  }
+  > #eye-r-half {
+    type: image;
+    content: url('assets/vesper/eyeR_half.png');
+    x: 507px;
+    y: 227px;
+    width: 62px;
+    height: 73px;
+    opacity: 0;
+    transition: opacity 140ms ease-out;
+    &:state(eating) {
+      opacity: 1;
+    }
+  }
+  > #eye-r-meh {
+    type: image;
+    content: url('assets/vesper/eyeR_meh.png');
+    x: 507px;
+    y: 227px;
+    width: 62px;
+    height: 73px;
+    opacity: 0;
+    transition: opacity 140ms ease-out;
+    &:state(meh) {
+      opacity: 1;
+    }
+  }
+  > #twinkle {
+    type: text;
+    content: "✦";
+    x: 452px;
+    y: 91px;
+    fill: #ffeccf;
+    font-size: 20px;
+    opacity: 0;
+    animation: twink 5.4s linear infinite;
+  }
+  }
+}
+
+#spark {
+  type: text;
+  content: "♥";
+  x: 606px;
+  y: 105px;
+  fill: #ff9fd0;
+  font-size: 34px;
+  opacity: 0;
+  &:state(happy) {
+    animation: pop 1.2s ease-out;
+  }
+  &:state(poked) {
+    animation: pop 0.9s ease-out;
+  }
+}

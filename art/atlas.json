@@ -1,0 +1,19 @@
+{
+ "cell_w": 132,
+ "cell_h": 56,
+ "slots": [
+  "bun_b",
+  "patty",
+  "cheese",
+  "mold",
+  "lettuce",
+  "tomato",
+  "pickle",
+  "onion",
+  "bacon",
+  "egg",
+  "shroom",
+  "ice",
+  "bun_t"
+ ]
+}
